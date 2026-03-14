@@ -24,7 +24,7 @@
     </div>
     <div class="win-statusbar">
         <span class="win-statusbar-panel">Ready</span>
-        <span class="win-statusbar-panel" style="flex:0; white-space:nowrap;">ZelifKudos v1.0</span>
+        <span class="win-statusbar-panel" style="flex:0; white-space:nowrap;">ZelifKudos v<g:meta name="info.app.version"/></span>
     </div>
 </div>
 
