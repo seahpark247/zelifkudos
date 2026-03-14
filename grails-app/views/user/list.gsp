@@ -40,14 +40,14 @@
             <li>
                 <span>
                     <span class="win-index">${i+1}.</span>
-                    <g:encodeAs codec="HTML">${u.name}</g:encodeAs><g:if test="${isAdmin}"> (${kudosCounts[u.id] ?: 0})</g:if>
+                    <g:encodeAs codec="HTML">${u.name.capitalize()}</g:encodeAs><g:if test="${isAdmin}"> (${kudosCounts[u.id] ?: 0})</g:if>
                 </span>
                 <g:if test="${session.userId != u.id}">
                     <g:form controller="kudos" action="send" method="POST" class="win-inline-form" name="kudos-form-${u.id}">
                         <input type="hidden" name="id" value="${u.id}" />
                         <button type="button"
                                 class="win-btn win-btn-sm"
-                                onclick="confirmKudos('${u.name.encodeAsJavaScript()}', 'kudos-form-${u.id}')">
+                                onclick="confirmKudos('${u.name.capitalize().encodeAsJavaScript()}', 'kudos-form-${u.id}')">
                             Kudos!
                         </button>
                     </g:form>

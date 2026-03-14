@@ -27,9 +27,9 @@
                 </g:each>
                 <div class="win-log-entry">
                     <span class="win-index">${String.format('%03d', offset + i + 1)}</span>
-                    <span class="win-log-sender">${k.sender.name}</span>
+                    <span class="win-log-sender">${k.sender.name.capitalize()}</span>
                     <span class="win-log-arrow">&rarr;</span>
-                    <span class="win-log-receiver">${k.receiver.name}</span>
+                    <span class="win-log-receiver">${k.receiver.name.capitalize()}</span>
                     <span class="win-log-date">
                         <g:formatDate date="${k.dateCreated}" format="yyyy-MM-dd HH:mm"/>
                     </span>
