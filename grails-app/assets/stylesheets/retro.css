@@ -783,6 +783,7 @@ body {
 
     .win-chat-body {
         height: 200px;
+        flex: none;
     }
 
     .win-desktop-layout {
