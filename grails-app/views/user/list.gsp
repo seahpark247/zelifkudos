@@ -9,6 +9,12 @@
                 document.getElementsByName(formName)[0].submit()
             }
         }
+        function editFeeling(bubble) {
+            var form = bubble.parentNode.querySelector('.win-feeling-form')
+            bubble.style.display = 'none'
+            form.style.display = ''
+            form.querySelector('.win-feeling-input').focus()
+        }
     </script>
 </head>
 
@@ -69,6 +75,19 @@
                 <span>
                     <span class="win-index">${i+1}.</span>
                     <g:encodeAs codec="HTML">${u.name.capitalize()}</g:encodeAs><g:if test="${isAdmin}"> (${kudosCounts[u.id] ?: 0})</g:if>
+                    <g:if test="${session.userId == u.id}">
+                        <g:if test="${feelings[u.id]}">
+                            <span class="win-feeling win-feeling-mine" onclick="editFeeling(this)">${feelings[u.id].encodeAsHTML()}</span>
+                        </g:if>
+                        <g:form controller="user" action="updateFeeling" method="POST" class="win-feeling-form" style="${feelings[u.id] ? 'display:none' : ''}">
+                            <input type="text" name="feeling" placeholder="How are you feeling?" maxlength="100" class="win-feeling-input"
+                                   value="${(feelings[u.id] ?: '').encodeAsHTML()}" />
+                            <button type="submit" class="win-btn win-btn-sm">Set</button>
+                        </g:form>
+                    </g:if>
+                    <g:elseif test="${feelings[u.id]}">
+                        <span class="win-feeling">${feelings[u.id].encodeAsHTML()}</span>
+                    </g:elseif>
                 </span>
                 <g:if test="${session.userId != u.id}">
                     <g:form controller="kudos" action="send" method="POST" class="win-inline-form" name="kudos-form-${u.id}">

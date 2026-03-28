@@ -5,6 +5,7 @@ class KudosController {
     static allowedMethods = [send: 'POST', reset: 'POST']
 
     KudosService kudosService
+    FeelingService feelingService
 
     def send() {
         Long receiverId = params.long('id')
@@ -39,6 +40,7 @@ class KudosController {
         }
 
         kudosService.markKudosReset(currentUser)
+        feelingService.deleteAllFeelings()
         flash.message = "All kudos have been reset."
         redirect(controller: "user", action: "list")
     }
