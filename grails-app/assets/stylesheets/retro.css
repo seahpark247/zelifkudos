@@ -532,7 +532,7 @@ body {
 /* --- RESPONSIVE --- */
 @media (max-width: 700px) {
     .win-window {
-        margin: 10px;
+        /*margin: 10px;*/
     }
 
     .win-listview li {
@@ -660,6 +660,134 @@ body {
 .win-listview li:hover .win-feeling {
     background: #e0f0ff;
     color: #000000;
+}
+
+/* --- DESKTOP LAYOUT --- */
+.win-desktop-layout {
+    max-width: 640px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.win-desktop-layout > .win-window:not(.win-chat-window) {
+    margin: 0;
+}
+
+/* --- CHAT WINDOW --- */
+.win-chat-window {
+    position: fixed;
+    left: max(8px, calc((100vw - 640px) / 2 - 276px));
+    top: 20px;
+    width: 260px;
+    height: 460px;
+    min-width: 200px;
+    min-height: 200px;
+    max-width: 90vw;
+    max-height: calc(100vh - 60px);
+    z-index: 100;
+    margin: 0;
+    resize: both;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.win-chat-window .win-titlebar {
+    background: linear-gradient(90deg, #808080, #a0a0a0);
+}
+
+.win-chat-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    background: #1a1a2e;
+}
+
+.win-chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 6px;
+    font-size: 12px;
+    min-height: 0;
+    background: #0d0d1a;
+    color: #d0d0d0;
+    border: 2px solid;
+    border-color: #808080 #ffffff #ffffff #808080;
+    margin: 4px;
+}
+
+.win-chat-msg {
+    padding: 2px 0;
+    word-break: break-word;
+}
+
+.win-chat-time {
+    color: #666699;
+    font-size: 11px;
+}
+
+.win-chat-nick {
+    color: #00cc99;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.win-chat-input-area {
+    display: flex;
+    gap: 2px;
+    padding: 4px;
+    border-top: 2px solid;
+    border-color: #808080 #ffffff #ffffff #808080;
+    background: #c0c0c0;
+}
+
+.win-chat-input-area input {
+    flex: 1;
+    font-size: 12px;
+}
+
+.win-titlebar-btn {
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    font-family: 'MS Sans Serif', 'Arial', sans-serif !important;
+    font-size: 11px;
+    width: 16px;
+    height: 14px;
+    padding: 0;
+    cursor: pointer;
+    line-height: 10px;
+    text-align: center;
+    color: #000000;
+}
+
+.win-titlebar-btn:active {
+    border-color: #808080 #ffffff #ffffff #808080;
+}
+
+/* --- MOBILE: chat on top --- */
+@media (max-width: 768px) {
+    .win-chat-window {
+        position: static !important;
+        width: 100% !important;
+        height: auto !important;
+        left: auto !important;
+        top: auto !important;
+        right: auto !important;
+        margin-bottom: 8px;
+        resize: none;
+        overflow: visible;
+    }
+
+    .win-chat-body {
+        height: 200px;
+    }
+
+    .win-desktop-layout {
+        margin: 10px auto;
+    }
 }
 
 /* --- HIDE BOOTSTRAP DEFAULTS --- */

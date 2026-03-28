@@ -3,7 +3,7 @@ package zelifkudos
 class AuthInterceptor {
 
     AuthInterceptor() {
-        matchAll().excludes(controller: 'login')
+        matchAll().excludes(controller: 'login').excludes(uri: '/ws/**')
     }
 
     boolean before() {

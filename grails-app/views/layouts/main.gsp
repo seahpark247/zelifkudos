@@ -11,22 +11,43 @@
 
 <body>
 
-<div class="win-window">
-    <div class="win-titlebar">
-        <span class="win-titlebar-text">ZelifKudos - Employee Recognition System</span>
+<div class="win-desktop-layout">
+
+    <g:if test="${session.userId}">
+    <div class="win-window win-chat-window" id="chatWindow">
+        <div class="win-titlebar" id="chatTitlebar" style="cursor:grab;">
+            <span class="win-titlebar-text">💧 Water Cooler</span>
+            <button class="win-titlebar-btn" onclick="toggleChat()" title="Minimize">&minus;</button>
+        </div>
+        <div class="win-chat-body" id="chatBody">
+            <div class="win-sunken win-chat-messages" id="chatMessages"></div>
+            <div class="win-chat-input-area">
+                <input type="text" id="chatInput" placeholder="Type a message..." maxlength="500"
+                       onkeydown="if(event.key==='Enter'&&!event.isComposing)sendChatMessage()" />
+                <button class="win-btn win-btn-sm" onclick="sendChatMessage()">Send</button>
+            </div>
+        </div>
     </div>
-    <div class="win-menubar">
-        <a href="${createLink(controller:'user', action:'list')}" class="${controllerName == 'user' ? 'active' : ''}">Users</a>
-        <a href="${createLink(controller:'kudos', action:'list')}" class="${controllerName == 'kudos' && actionName == 'list' ? 'active' : ''}">History</a>
-        <a href="${createLink(controller:'kudos', action:'myKudos')}" class="${controllerName == 'kudos' && actionName == 'myKudos' ? 'active' : ''}">My Kudos</a>
+    </g:if>
+
+    <div class="win-window">
+        <div class="win-titlebar">
+            <span class="win-titlebar-text">ZelifKudos - Employee Recognition System</span>
+        </div>
+        <div class="win-menubar">
+            <a href="${createLink(controller:'user', action:'list')}" class="${controllerName == 'user' ? 'active' : ''}">Users</a>
+            <a href="${createLink(controller:'kudos', action:'list')}" class="${controllerName == 'kudos' && actionName == 'list' ? 'active' : ''}">History</a>
+            <a href="${createLink(controller:'kudos', action:'myKudos')}" class="${controllerName == 'kudos' && actionName == 'myKudos' ? 'active' : ''}">My Kudos</a>
+        </div>
+        <div class="win-body">
+            <g:layoutBody/>
+        </div>
+        <div class="win-statusbar">
+            <span class="win-statusbar-panel">Ready</span>
+            <span class="win-statusbar-panel" style="flex:0; white-space:nowrap;">ZelifKudos v<g:meta name="info.app.version"/></span>
+        </div>
     </div>
-    <div class="win-body">
-        <g:layoutBody/>
-    </div>
-    <div class="win-statusbar">
-        <span class="win-statusbar-panel">Ready</span>
-        <span class="win-statusbar-panel" style="flex:0; white-space:nowrap;">ZelifKudos v<g:meta name="info.app.version"/></span>
-    </div>
+
 </div>
 
 <div class="win-taskbar">
@@ -68,6 +89,111 @@
         el.textContent = yyyy + '-' + mm + '-' + dd + ' ' + hh + ':' + min;
     });
 </script>
+
+<g:if test="${session.userId}">
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2/lib/stomp.min.js"></script>
+<script>
+    (function() {
+        var win = document.getElementById('chatWindow');
+        var header = document.getElementById('chatTitlebar');
+        var isDragging = false;
+        var offsetX, offsetY;
+
+        header.addEventListener('mousedown', function(e) {
+            if (e.target.closest('.win-titlebar-btn')) return;
+            if (window.innerWidth <= 768) return;
+            isDragging = true;
+            var rect = win.getBoundingClientRect();
+            offsetX = e.clientX - rect.left;
+            offsetY = e.clientY - rect.top;
+            win.style.left = rect.left + 'px';
+            win.style.top = rect.top + 'px';
+            win.style.right = 'auto';
+            win.style.bottom = 'auto';
+            header.style.cursor = 'grabbing';
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (!isDragging) return;
+            var x = e.clientX - offsetX;
+            var y = e.clientY - offsetY;
+            var rect = win.getBoundingClientRect();
+            x = Math.max(0, Math.min(x, window.innerWidth - rect.width));
+            y = Math.max(0, Math.min(y, window.innerHeight - rect.height));
+            win.style.left = x + 'px';
+            win.style.top = y + 'px';
+        });
+
+        document.addEventListener('mouseup', function() {
+            isDragging = false;
+            header.style.cursor = 'grab';
+        });
+    })();
+
+    var stompClient = null;
+
+    function escapeHtml(text) {
+        var div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function appendMessage(content, timestamp) {
+        var el = document.getElementById('chatMessages');
+        var d = new Date(timestamp);
+        var h = d.getHours(), m = String(d.getMinutes()).padStart(2, '0');
+        var ampm = h >= 12 ? 'PM' : 'AM';
+        h = h % 12 || 12;
+        var div = document.createElement('div');
+        div.className = 'win-chat-msg';
+        div.innerHTML = '<span class="win-chat-time">' + h + ':' + m + ' ' + ampm + '</span> '
+            + '<span class="win-chat-nick">Anonymous</span>: '
+            + escapeHtml(content);
+        el.appendChild(div);
+        el.scrollTop = el.scrollHeight;
+    }
+
+    function connectChat() {
+        var socket = new SockJS('/ws/chat');
+        stompClient = Stomp.over(socket);
+        stompClient.debug = null;
+        stompClient.connect({}, function() {
+            stompClient.subscribe('/topic/chat', function(msg) {
+                var data = JSON.parse(msg.body);
+                appendMessage(data.content, data.timestamp);
+            });
+        }, function() {
+            setTimeout(connectChat, 5000);
+        });
+    }
+
+    function sendChatMessage() {
+        var input = document.getElementById('chatInput');
+        var text = input.value.trim();
+        if (!text || !stompClient || !stompClient.connected) return;
+        stompClient.send('/app/chat.send', {}, JSON.stringify({ content: text }));
+        input.value = '';
+    }
+
+    function toggleChat() {
+        var win = document.getElementById('chatWindow');
+        var body = document.getElementById('chatBody');
+        var btn = document.querySelector('#chatWindow .win-titlebar-btn');
+        var collapsed = body.style.display !== 'none';
+        body.style.display = collapsed ? 'none' : '';
+        win.style.minHeight = collapsed ? '0' : '';
+        win.style.height = collapsed ? 'auto' : '';
+        btn.innerHTML = collapsed ? '+' : '&minus;';
+        btn.title = collapsed ? 'Restore' : 'Minimize';
+    }
+
+    fetch('/chat/recent').then(function(r) { return r.json(); }).then(function(msgs) {
+        msgs.forEach(function(m) { appendMessage(m.content, m.timestamp); });
+        connectChat();
+    });
+</script>
+</g:if>
 
 <div id="spinner" style="display:none;">Loading...</div>
 <asset:javascript src="application.js"/>

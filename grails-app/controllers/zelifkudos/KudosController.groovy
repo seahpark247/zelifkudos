@@ -6,6 +6,7 @@ class KudosController {
 
     KudosService kudosService
     FeelingService feelingService
+    ChatService chatService
 
     def send() {
         Long receiverId = params.long('id')
@@ -41,6 +42,7 @@ class KudosController {
 
         kudosService.markKudosReset(currentUser)
         feelingService.deleteAllFeelings()
+        chatService.deleteAllMessages()
         flash.message = "All kudos have been reset."
         redirect(controller: "user", action: "list")
     }
