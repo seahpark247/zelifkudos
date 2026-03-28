@@ -184,6 +184,7 @@
         body.style.display = collapsed ? 'none' : '';
         win.style.minHeight = collapsed ? '0' : '';
         win.style.height = collapsed ? 'auto' : '';
+        win.style.resize = collapsed ? 'none' : '';
         btn.innerHTML = collapsed ? '+' : '&minus;';
         btn.title = collapsed ? 'Restore' : 'Minimize';
     }
