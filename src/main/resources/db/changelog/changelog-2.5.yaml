@@ -92,6 +92,15 @@ databaseChangeLog:
             tableName: feeling
             columnNames: user_id
             constraintName: uk_feeling_user
+
+  - changeSet:
+      id: 2.5-3-feeling-fk-user
+      author: seah
+      preConditions:
+        - onFail: MARK_RAN
+        - tableExists:
+            tableName: "user"
+      changes:
         - addForeignKeyConstraint:
             baseTableName: feeling
             baseColumnNames: user_id
