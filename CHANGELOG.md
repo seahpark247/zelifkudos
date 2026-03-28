@@ -11,6 +11,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ### Added
 - Add thought bubble feature for setting a short status message.
+- Add Water Cooler anonymous chat room with WebSocket support.
+- Implement database migration tool, liquibase.
 
 ## [2.4] - 2026-03-22
 

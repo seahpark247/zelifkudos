@@ -60,6 +60,8 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-websocket"
     implementation 'org.apache.grails:grails-quartz:4.0.1'
     implementation "org.springframework.session:spring-session-jdbc"
+    implementation "org.grails.plugins:database-migration:4.2.1"
+    runtimeOnly "org.liquibase:liquibase-core:4.25.1"
     integrationTestImplementation testFixtures("org.apache.grails:grails-geb")
     profile "org.apache.grails.profiles:web"
     runtimeOnly "org.fusesource.jansi:jansi"

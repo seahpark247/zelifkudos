@@ -149,3 +149,9 @@ environments:
         dataSource:
             dbCreate: none
             url: ${DB_URL:jdbc:postgresql://localhost:5432/zelifkudos}
+
+grails:
+    plugin:
+        databasemigration:
+            updateOnStart: true
+            changelogFileName: changelog-master.groovy
