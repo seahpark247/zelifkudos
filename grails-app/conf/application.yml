@@ -153,3 +153,6 @@ environments:
 spring:
     liquibase:
         change-log: classpath:db/changelog/changelog-master.yaml
+        url: ${DB_URL:jdbc:postgresql://localhost:5432/zelifkudos}
+        user: ${DB_USERNAME:}
+        password: ${DB_PASSWORD:}
