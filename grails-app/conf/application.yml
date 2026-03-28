@@ -139,11 +139,11 @@ dataSource:
 environments:
     development:
         dataSource:
-            dbCreate: update
+            dbCreate: none
             url: jdbc:postgresql://localhost:5432/zelifkudos
     test:
         dataSource:
-            dbCreate: update
+            dbCreate: none
             url: jdbc:postgresql://localhost:5432/zelifkudos
     production:
         dataSource:
