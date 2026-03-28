@@ -723,7 +723,7 @@ body {
     background: #0d0d1a;
     color: #d0d0d0;
     border: 2px solid;
-    border-color: #808080 #ffffff #ffffff #808080;
+    border-color: #000000 #333333 #333333 #000000;
     margin: 4px;
 }
 
