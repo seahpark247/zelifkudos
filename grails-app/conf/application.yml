@@ -150,8 +150,6 @@ environments:
             dbCreate: none
             url: ${DB_URL:jdbc:postgresql://localhost:5432/zelifkudos}
 
-grails:
-    plugin:
-        databasemigration:
-            updateOnStart: true
-            changelogFileName: changelog-master.groovy
+spring:
+    liquibase:
+        change-log: classpath:db/changelog/changelog-master.yaml
