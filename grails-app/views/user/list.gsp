@@ -77,16 +77,16 @@
                     <g:encodeAs codec="HTML">${u.name.capitalize()}</g:encodeAs><g:if test="${isAdmin}"> (${kudosCounts[u.id] ?: 0})</g:if>
                     <g:if test="${session.userId == u.id}">
                         <g:if test="${feelings[u.id]}">
-                            <span class="win-feeling win-feeling-mine" onclick="editFeeling(this)">${feelings[u.id].encodeAsHTML()}</span>
+                            <span class="win-feeling win-feeling-mine" onclick="editFeeling(this)" title="${feelings[u.id].encodeAsHTML()}"><span class="win-feeling-text">${feelings[u.id].encodeAsHTML()}</span></span>
                         </g:if>
                         <g:form controller="user" action="updateFeeling" method="POST" class="win-feeling-form" style="${feelings[u.id] ? 'display:none' : ''}">
-                            <input type="text" name="feeling" placeholder="How are you feeling?" maxlength="100" class="win-feeling-input"
+                            <input type="text" name="feeling" placeholder="How are you feeling?" maxlength="50" class="win-feeling-input"
                                    value="${(feelings[u.id] ?: '').encodeAsHTML()}" />
                             <button type="submit" class="win-btn win-btn-sm">Set</button>
                         </g:form>
                     </g:if>
                     <g:elseif test="${feelings[u.id]}">
-                        <span class="win-feeling">${feelings[u.id].encodeAsHTML()}</span>
+                        <span class="win-feeling" title="${feelings[u.id].encodeAsHTML()}"><span class="win-feeling-text">${feelings[u.id].encodeAsHTML()}</span></span>
                     </g:elseif>
                 </span>
                 <g:if test="${session.userId != u.id}">

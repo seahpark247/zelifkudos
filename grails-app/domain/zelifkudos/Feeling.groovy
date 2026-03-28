@@ -8,6 +8,6 @@ class Feeling {
 
     static constraints = {
         user unique: true
-        message maxSize: 100
+        message maxSize: 50
     }
 }
