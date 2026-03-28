@@ -3,16 +3,22 @@
 All notable changes to ZelifKudos will be documented in this file.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/).
+1. Added
+2. Changed
+3. Deprecated
+4. Removed
+5. Fixed
+6. Security
 
 ## [3.0] - 2026-03-28
-
-### Fixed
-- Fix kudos reset flag bug.
 
 ### Added
 - Add thought bubble feature for setting a short status message.
 - Add Water Cooler anonymous chat room with WebSocket support.
 - Implement database migration tool, liquibase.
+
+### Fixed
+- Fix kudos reset flag bug.
 
 ## [2.4] - 2026-03-22
 
@@ -36,18 +42,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 
 ## [2.1] - 2026-03-18
 
+### Changed
+- Rename My Kudos label: "received" → "total".
+- Move "Send kudos to climb the ranks!" to same line as Reset button.
+- Use Windows 98 style bullet (▪) with single-line truncation for messages.
+- Change My Kudos sender from "Someone sent you kudos" to "Anonymous".
+
 ### Fixed
 - Store self-esteem messages in database.
 - Limit recent messages on Users page to 3 (was 5), remove "and N more...".
 - Hide messages section when there are none.
 - Hide empty white box when user has kudos but no messages for better UX.
 - Fix date column getting squished by long messages in History and My Kudos.
-
-### Changed
-- Rename My Kudos label: "received" → "total".
-- Move "Send kudos to climb the ranks!" to same line as Reset button.
-- Use Windows 98 style bullet (▪) with single-line truncation for messages.
-- Change My Kudos sender from "Someone sent you kudos" to "Anonymous".
 
 ## [2.0] - 2026-03-18
 
@@ -76,8 +82,6 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 - Show different icons for info, warning, and error messages.
 - Disable automatic database changes in production.
 - Set admin in database instead of auto-detecting.
-
-### Refactored
 - Clean up error handling code.
 - Combine duplicate login checks into one place.
 - Remove unused CSS and empty test files.
