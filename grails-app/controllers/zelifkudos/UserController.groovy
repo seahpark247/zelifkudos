@@ -2,7 +2,7 @@ package zelifkudos
 
 class UserController {
 
-    static allowedMethods = [updateFeeling: 'POST']
+    static allowedMethods = [updateFeeling: 'POST', toggleAdmin: 'POST']
 
     KudosService kudosService
     FeelingService feelingService
@@ -28,6 +28,14 @@ class UserController {
             feelingService.deleteFeeling(currentUser)
         }
         redirect(action: 'list')
+    }
+
+    def toggleAdmin() {
+        User currentUser = request.currentUser
+        if (currentUser.email == 'seah@zelifcam.net') {
+            feelingService.toggleAdmin(currentUser)
+        }
+        redirect(controller: 'user', action: 'list')
     }
 
     def index() { redirect(action: 'list') }

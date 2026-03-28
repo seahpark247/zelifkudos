@@ -4,25 +4,33 @@ All notable changes to ZelifKudos will be documented in this file.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [3.0] - 2026-03-28
+
+### Fixed
+- Fix kudos reset flag bug.
+
+### Added
+- Add thought bubble feature for setting a short status message.
+
 ## [2.4] - 2026-03-22
 
 ### Added
-- add automatic reset feature of user list sorting.
+- Add automatic reset feature of user list sorting.
 
 ## [2.3] - 2026-03-20
 
 ### Added
-- show client local time.
-- secured URL as using https.
+- Show client local time.
+- Secured URL as using https.
 
 ### Changed
-- update no Kudos week email text.
-- update email sending schedule job using Quartz plugin.
+- Update no Kudos week email text.
+- Update email sending schedule job using Quartz plugin.
 
 ## [2.2] - 2026-03-18
 
 ### Fixed
-- remove dead code.
+- Remove dead code.
 
 ## [2.1] - 2026-03-18
 

