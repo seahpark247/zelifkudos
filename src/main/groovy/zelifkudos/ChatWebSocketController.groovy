@@ -1,11 +1,13 @@
 package zelifkudos
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.event.EventListener
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor
 import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.stereotype.Controller
+import org.springframework.web.socket.messaging.SessionDisconnectEvent
 
 @Controller
 class ChatWebSocketController {
@@ -31,9 +33,9 @@ class ChatWebSocketController {
         Long lastTime = lastSendTime.get(sessionId)
         if (lastTime && now - lastTime < 3000) return
 
-        // Block identical consecutive message
+        // Block identical consecutive message within 10 seconds
         String lastMsg = lastMessage.get(sessionId)
-        if (lastMsg == content) return
+        if (lastMsg == content && lastTime && now - lastTime < 10000) return
 
         lastSendTime.put(sessionId, now)
         lastMessage.put(sessionId, content)
@@ -46,5 +48,12 @@ class ChatWebSocketController {
             content: saved.content,
             timestamp: saved.dateCreated.time
         ])
+    }
+
+    @EventListener
+    void onDisconnect(SessionDisconnectEvent event) {
+        String sessionId = event.sessionId
+        lastSendTime.remove(sessionId)
+        lastMessage.remove(sessionId)
     }
 }

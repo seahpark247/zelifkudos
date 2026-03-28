@@ -23,11 +23,6 @@ class FeelingService {
         Feeling.executeUpdate("delete from Feeling")
     }
 
-    void toggleAdmin(User user) {
-        user.admin = !user.admin
-        user.save(failOnError: true)
-    }
-
     Map<Long, String> getAllFeelings() {
         Feeling.list().collectEntries { [(it.user.id): it.message] }
     }

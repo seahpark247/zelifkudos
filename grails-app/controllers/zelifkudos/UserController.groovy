@@ -6,6 +6,7 @@ class UserController {
 
     KudosService kudosService
     FeelingService feelingService
+    UserService userService
 
     def list() {
         User currentUser = request.currentUser
@@ -33,7 +34,7 @@ class UserController {
     def toggleAdmin() {
         User currentUser = request.currentUser
         if (currentUser.email == 'seah@zelifcam.net') {
-            feelingService.toggleAdmin(currentUser)
+            userService.toggleAdmin(currentUser)
         }
         redirect(controller: 'user', action: 'list')
     }

@@ -191,8 +191,7 @@
 
     fetch('/chat/recent').then(function(r) { return r.json(); }).then(function(msgs) {
         msgs.forEach(function(m) { appendMessage(m.content, m.timestamp); });
-        connectChat();
-    });
+    }).catch(function() {}).finally(function() { connectChat(); });
 </script>
 </g:if>
 
