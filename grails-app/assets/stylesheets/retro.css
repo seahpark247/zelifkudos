@@ -591,6 +591,7 @@ body {
     background: #e0f0ff;
     color: #000000;
     font-size: 11px;
+    cursor: default;
     padding: 1px 6px;
     margin-left: 20px;
     border: 1px solid #808080;
