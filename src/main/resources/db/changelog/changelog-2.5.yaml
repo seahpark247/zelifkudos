@@ -99,11 +99,11 @@ databaseChangeLog:
       preConditions:
         - onFail: MARK_RAN
         - tableExists:
-            tableName: "user"
+            tableName: app_user
       changes:
         - addForeignKeyConstraint:
             baseTableName: feeling
             baseColumnNames: user_id
-            referencedTableName: "user"
+            referencedTableName: app_user
             referencedColumnNames: id
             constraintName: fk_feeling_user
