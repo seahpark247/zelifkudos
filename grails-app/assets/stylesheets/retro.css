@@ -790,6 +790,10 @@ body {
         overflow: visible;
     }
 
+    .win-chat-window .win-titlebar {
+        cursor: default !important;
+    }
+
     .win-chat-body {
         height: 200px;
         flex: none;
