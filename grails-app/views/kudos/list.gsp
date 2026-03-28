@@ -19,7 +19,7 @@
                             <span>&#9632; RESET — <span data-utc="${rd.time}"></span> &#9632;</span>
                         </div>
                     </g:if>
-                    <g:if test="${i == 0 && k.dateCreated <= rd}">
+                    <g:if test="${i == 0 && offset == 0 && k.dateCreated <= rd}">
                         <div class="win-reset-divider">
                             <span>&#9632; RESET — <span data-utc="${rd.time}"></span> &#9632;</span>
                         </div>
