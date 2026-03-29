@@ -10,6 +10,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 5. Fixed
 6. Security
 
+## [3.1] - 2026-03-28
+
+### Fixed
+- Fix liquibase bug and websocket bug in production.
+
 ## [3.0] - 2026-03-28
 
 ### Added

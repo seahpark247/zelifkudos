@@ -781,6 +781,7 @@ body {
     .win-chat-window {
         position: static !important;
         width: 100% !important;
+        max-width: 640px;
         height: auto !important;
         left: auto !important;
         top: auto !important;
