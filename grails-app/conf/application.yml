@@ -66,6 +66,8 @@ environments:
                     exposure:
                         include: '*'
     production:
+        grails:
+            serverURL: https://zelifkudos.ddnsking.com
         spring:
             session:
                 jdbc:
