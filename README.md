@@ -24,17 +24,34 @@ Try Me: https://zelifkudos.ddnsking.com/
 <img width="1470" height="835" alt="Screenshot 2026-03-28 at 7 20 23 PM" src="https://github.com/user-attachments/assets/e03c2e4e-4730-4333-9066-7ecd4d9758d8" />
 ---
 
-## What Is This?
+## Overview
 
-A peer recognition app built for my team at work. Designed, developed, and deployed solo — from idea to production with real users.
+A peer recognition app I built solo for my team. From idea to production — designed, coded, and deployed by me, running live with real users.
 
-Team members send each other kudos throughout the week. Every Friday at 6 PM, everyone gets a personalized email report with the week's top stars and any messages they received. Then the slate resets and a new week begins.
+Every week, teammates send each other kudos. On Friday evening, everyone gets a personalized email with the week's top stars and messages they received. Then the counter resets and a new week starts.
 
 ## Why I Built It
 
-I wanted my teammates to feel appreciated. Slack messages disappear, verbal praise gets forgotten. I wanted something persistent, fun, and low-friction — something that takes 5 seconds to use but makes someone's day.
+Verbal praise gets forgotten. Slack messages disappear. I wanted a simple way to say "I noticed you, and I appreciate you" — something that sticks around and actually feels good to use.
 
-No existing tool fit what I wanted, so I built it myself.
+Nothing out there did what I wanted, so I made it myself.
+
+## How It Works
+
+**Login** — No passwords. You enter your company email, get a magic link, click it, you're in. The link expires in 15 minutes. Only `@zelifcam.net` emails are allowed, so authentication and access control happen in one step.
+
+**Kudos** — Pick a teammate, write an optional message, send. There's a daily limit (5 per person) and a cooldown (10 min) to keep things genuine.
+
+**Chat** — Real-time team chat via WebSocket. Messages are rate-limited (3-second cooldown, duplicate blocking) to prevent spam.
+
+**Weekly Email** — Every Friday at 6 PM, a Quartz job sends each person an HTML email with:
+- Top 3 stars of the week (dense ranking — ties share the same spot)
+- How many kudos you got and what people said
+- A rotating self-esteem message
+
+The system sends all emails first, then resets only if every email succeeds. If one fails, nothing resets — no one gets skipped.
+
+**Weekly Reset** — Every reset is logged with who triggered it (the system on Fridays, or an admin manually). Full audit trail.
 
 ## Architecture
 
@@ -60,91 +77,40 @@ No existing tool fit what I wanted, so I built it myself.
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Backend | Grails 6, Groovy, Spring Boot 2 |
-| ORM | GORM 7 / Hibernate 5 |
-| Database | PostgreSQL 16 |
-| Real-time | WebSocket (SockJS + STOMP) |
-| Auth | Passwordless magic link (email token) |
-| Scheduling | Quartz 4.0 |
-| Migration | Liquibase |
-| Session | Spring Session JDBC (survives restarts) |
-| Deployment | Docker multi-stage build, Oracle Cloud VM (Always Free) |
-| UI | Windows 98 retro theme (pure CSS), Bootstrap 5 |
+Grails 6 (Groovy) on Spring Boot 2, PostgreSQL 16, WebSocket (SockJS + STOMP) for real-time chat, Quartz for scheduled jobs, Liquibase for DB migrations, Spring Session JDBC so sessions survive deploys.
 
-## Key Features & Technical Decisions
+Deployed on an Oracle Cloud Always Free VM via Docker. Total hosting cost: **$0/month**.
 
-### Passwordless Authentication
-No passwords to manage or forget. Users receive a magic link via email, click it, and they're in. Token expires in 15 minutes with a 2-minute cooldown to prevent spam. Access is restricted to `@zelifcam.net` company emails — authentication and authorization in one step.
-
-### Anti-Spam: Defense in Depth
-Abuse prevention at multiple layers, each enforced at the appropriate level:
-- **Kudos** (service layer): 5/day limit per receiver + 10-minute cooldown between sends
-- **Chat** (WebSocket controller): 3-second cooldown + duplicate message blocking within 10 seconds
-- **Login** (service layer): 2-minute cooldown between token requests
-
-### Real-Time Team Chat
-SockJS + STOMP over WebSocket with session-based authentication at the handshake level. The `SessionHandshakeInterceptor` rejects connections without a valid session. Rate limiting is tracked per WebSocket session using `ConcurrentHashMap`, cleaned up on disconnect via `SessionDisconnectEvent`.
-
-### Weekly Email Report System
-Quartz cron job fires every Friday at 6 PM CT. Each user gets a personalized HTML email with:
-- **Top 3 Stars** using dense ranking (ties share the same rank; e.g., 3 people tied for 1st all get gold)
-- **Personal kudos count** and messages received
-- **Rotating self-esteem messages** that cycle through the entire list before repeating
-
-Smart recipient filtering: active users always receive the email; inactive users only get it if they received kudos that week. Sends emails first, resets the week only after all succeed.
-
-### Weekly Reset with Audit Trail
-Every reset is recorded in `KudosReset` with who triggered it (system or admin). This separates automated Friday resets from manual admin resets and provides a full history of cycle boundaries.
-
-### Zero-Cost Production Deployment
-- **Docker multi-stage build**: JDK 17 for build, JRE 17 for runtime (smaller image)
-- **Oracle Cloud Always Free VM**: $0/month hosting
-- **256MB JVM heap**: tuned for free-tier constraints
-- **Spring Session JDBC**: sessions persist across Docker rebuilds, so users stay logged in during deploys
-- **Liquibase**: schema changes ship with the app, no manual SQL on the server
-
-### Windows 98 UI
-811 lines of pure CSS recreating the classic Windows look. Draggable and resizable chat window, mobile-responsive (768px breakpoint), pixel-perfect window chrome and taskbar. The retro theme boosted team adoption — people used it because it was fun.
+The UI is a Windows 98 retro theme — 800+ lines of pure CSS. Draggable chat window, mobile-responsive. People used it because it was fun.
 
 ## What I Learned
 
-- **Passwordless auth is underrated** — simpler to implement than password hashing + reset flows, better UX, and more secure for a small team app
-- **Rate limiting belongs at the right layer** — HTTP-level limits wouldn't catch WebSocket abuse; service-level limits wouldn't catch duplicate messages. Each defense sits where it can actually see the problem
-- **Dense ranking has edge cases** — "top 3" means top 3 rank levels, not top 3 people. Handling ties correctly required careful thought
-- **Free-tier constraints force good decisions** — 256MB heap limit meant I couldn't be wasteful. Spring Session JDBC solved the "deploy kills all sessions" problem without Redis
+- **Passwordless auth is underrated** — simpler than password hashing + reset flows, better UX, and more secure for a small team
+- **Rate limiting belongs at the right layer** — HTTP limits can't catch WebSocket spam, service limits can't catch duplicate chat messages. Each defense has to sit where it can see the problem
+- **Dense ranking has edge cases** — "top 3" means top 3 rank levels, not top 3 people. 5 people tied for 1st? That's 5 gold medals and no silver
+- **Free-tier constraints force good decisions** — 256MB heap limit meant no waste. Spring Session JDBC solved "deploy kills all sessions" without needing Redis
+
+## Running Locally
+
+```bash
+cp .env.example .env   # fill in your values
+docker compose up -d   # start the database
+./gradlew bootRun      # run the app
+```
+
+The app will be at `http://localhost:8080`.
 
 ## Project Structure
 
 ```
 grails-app/
-├── controllers/    # Thin controllers (auth, kudos, chat, users)
-├── domain/         # 7 domain classes (User, Kudos, ChatMessage, Feeling, ...)
-├── services/       # Business logic (kudos, login, email, chat, feeling)
-├── jobs/           # Quartz scheduled jobs (weekly email + reset)
-├── views/          # GSP server-rendered templates
-└── conf/           # App config, Spring resources, interceptors
+├── controllers/    # Auth, kudos, chat, users (thin — logic lives in services)
+├── domain/         # 7 entities: User, Kudos, ChatMessage, Feeling, LoginToken, ...
+├── services/       # All business logic: kudos, login, email, chat, feeling
+├── jobs/           # Quartz jobs (weekly email + reset)
+├── views/          # Server-rendered GSP templates
+└── conf/           # App config, interceptors
 
 src/main/groovy/    # WebSocket config, chat controller, auth interceptor
-src/main/resources/ # Liquibase changelogs
+src/main/resources/ # Liquibase DB changelogs
 ```
-
-## Running Locally
-
-```bash
-# Start PostgreSQL
-docker compose up -d
-
-# Run the app (dev mode)
-./gradlew bootRun
-
-# Production build
-docker build -t zelifkudos .
-```
-
-## Future Plans
-
-- Service layer tests (KudosService, WeeklyEmailService, LoginService)
-- CI/CD via GitHub Actions
-- Self-esteem message seed data (100 messages ready, need DB migration)
