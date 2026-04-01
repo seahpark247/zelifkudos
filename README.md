@@ -24,7 +24,6 @@ Try Me: https://zelifkudos.ddnsking.com/
 <img width="647" height="389" alt="Screenshot 2026-03-18 at 4 42 14 PM" src="https://github.com/user-attachments/assets/167e69e6-03f2-4619-b883-c7586c8536a7" />
 <img width="646" height="250" alt="Screenshot 2026-03-18 at 4 42 24 PM" src="https://github.com/user-attachments/assets/e1eeb352-4779-44e6-8e67-0ac32f002161" />
 </details>
----
 
 ## Overview
 
