@@ -22,32 +22,32 @@ Try Me: https://zelifkudos.ddnsking.com/
 
 ## Overview
 
-A peer recognition app I built solo for my team. From idea to production — designed, coded, and deployed by me, running live with real users.
+A peer recognition app I built solo for my team. From idea to production, designed, coded, and deployed by me. Running live with real users.
 
 Every week, teammates send each other kudos. On Friday evening, everyone gets a personalized email with the week's top stars and messages they received. Then the counter resets and a new week starts.
 
 ## Why I Built It
 
-Verbal praise gets forgotten. Slack messages disappear. I wanted a simple way to say "I noticed you, and I appreciate you" — something that sticks around and actually feels good to use.
+Verbal praise gets forgotten. Slack messages disappear. I wanted a simple way to say "I noticed you, and I appreciate you." Something that sticks around and actually feels good to use.
 
 Nothing out there did what I wanted, so I made it myself.
 
 ## How It Works
 
-**Login** — No passwords. You enter your company email, get a magic link, click it, you're in. The link expires in 15 minutes. Only `@zelifcam.net` emails are allowed, so authentication and access control happen in one step.
+**Login**: No passwords. You enter your company email, get a magic link, click it, you're in. The link expires in 15 minutes. Only `@zelifcam.net` emails are allowed, so authentication and access control happen in one step.
 
-**Kudos** — Pick a teammate, write an optional message, send. There's a daily limit (5 per person) and a cooldown (10 min) to keep things genuine.
+**Kudos**: Pick a teammate, write an optional message, send. There's a daily limit (5 per person) and a cooldown (10 min) to keep things genuine.
 
-**Chat** — Real-time team chat via WebSocket. Messages are rate-limited (3-second cooldown, duplicate blocking) to prevent spam.
+**Chat**: Real-time team chat via WebSocket. Messages are rate-limited (3-second cooldown, duplicate blocking) to prevent spam.
 
-**Weekly Email** — Every Friday at 6 PM, a Quartz job sends each person an HTML email with:
-- Top 3 stars of the week (dense ranking — ties share the same spot)
+**Weekly Email**: Every Friday at 6 PM, a Quartz job sends each person an HTML email with:
+- Top 3 stars of the week (dense ranking, ties share the same spot)
 - How many kudos you got and what people said
 - A rotating self-esteem message
 
-The system sends all emails first, then resets only if every email succeeds. If one fails, nothing resets — no one gets skipped.
+The system sends all emails first, then resets only if every email succeeds. If one fails, nothing resets. No one gets skipped.
 
-**Weekly Reset** — Every reset is logged with who triggered it (the system on Fridays, or an admin manually). Full audit trail.
+**Weekly Reset**: Every reset is logged with who triggered it (the system on Fridays, or an admin manually). Full audit trail.
 
 ## Architecture
 
@@ -77,14 +77,14 @@ Grails 6 (Groovy) on Spring Boot 2, PostgreSQL 16, WebSocket (SockJS + STOMP) fo
 
 Deployed on an Oracle Cloud Always Free VM via Docker. Total hosting cost: **$0/month**.
 
-The UI is a Windows 98 retro theme — 800+ lines of pure CSS. Draggable chat window, mobile-responsive. People used it because it was fun.
+The UI is a Windows 98 retro theme, 800+ lines of pure CSS. Draggable chat window, mobile-responsive. People used it because it was fun.
 
 ## What I Learned
 
-- **Passwordless auth is underrated** — simpler than password hashing + reset flows, better UX, and more secure for a small team
-- **Rate limiting belongs at the right layer** — HTTP limits can't catch WebSocket spam, service limits can't catch duplicate chat messages. Each defense has to sit where it can see the problem
-- **Dense ranking has edge cases** — "top 3" means top 3 rank levels, not top 3 people. 5 people tied for 1st? That's 5 gold medals and no silver
-- **Free-tier constraints force good decisions** — 256MB heap limit meant no waste. Spring Session JDBC solved "deploy kills all sessions" without needing Redis
+- **Passwordless auth is underrated.** Simpler than password hashing + reset flows, better UX, and more secure for a small team
+- **Rate limiting belongs at the right layer.** HTTP limits can't catch WebSocket spam, service limits can't catch duplicate chat messages. Each defense has to sit where it can see the problem
+- **Dense ranking has edge cases.** "Top 3" means top 3 rank levels, not top 3 people. 5 people tied for 1st? That's 5 gold medals and no silver
+- **Free-tier constraints force good decisions.** 256MB heap limit meant no waste. Spring Session JDBC solved "deploy kills all sessions" without needing Redis
 
 ## Running Locally
 
@@ -100,7 +100,7 @@ The app will be at `http://localhost:8080`.
 
 ```
 grails-app/
-├── controllers/    # Auth, kudos, chat, users (thin — logic lives in services)
+├── controllers/    # Auth, kudos, chat, users (thin, logic lives in services)
 ├── domain/         # 7 entities: User, Kudos, ChatMessage, Feeling, LoginToken, ...
 ├── services/       # All business logic: kudos, login, email, chat, feeling
 ├── jobs/           # Quartz jobs (weekly email + reset)
