@@ -10,6 +10,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 5. Fixed
 6. Security
 
+## [3.2] - 2026-04-06
+
+### Added
+- Random Chat's animal random nickname feature.
+
+### Changed
+- Change login logic as simple way.
+- Change chatting room name as Random Chat.
+
+### Fixed
+- Fix chat room width for bette UI.
+
 ## [3.1] - 2026-03-28
 
 ### Fixed

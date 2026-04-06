@@ -1,0 +1,63 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3.0-1-create-animal-nickname
+      author: seah
+      changes:
+        - createTable:
+            tableName: animal_nickname
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: version
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: animal_name
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: color_hex
+                  type: VARCHAR(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_created
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: animal_nickname
+            columnNames: user_id
+            constraintName: uk_animal_nickname_user
+        - addForeignKeyConstraint:
+            baseTableName: animal_nickname
+            baseColumnNames: user_id
+            referencedTableName: app_user
+            referencedColumnNames: id
+            constraintName: fk_animal_nickname_user
+
+  - changeSet:
+      id: 3.0-2-add-nickname-to-chat-message
+      author: seah
+      changes:
+        - addColumn:
+            tableName: chat_message
+            columns:
+              - column:
+                  name: nickname
+                  type: VARCHAR(255)
+              - column:
+                  name: color_hex
+                  type: VARCHAR(10)

@@ -42,11 +42,18 @@ class ChatWebSocketController {
 
         Long userId = headerAccessor.sessionAttributes?.get('userId') as Long
 
-        ChatMessage saved = chatService.saveMessage(content, userId)
+        // Get or assign animal nickname on first chat
+        AnimalNickname nick = userId ? chatService.getOrAssignNickname(userId) : null
+        String nickname = nick?.animalName ?: "Anonymous"
+        String colorHex = nick?.colorHex ?: "#CCCCCC"
+
+        ChatMessage saved = chatService.saveMessage(content, userId, nickname, colorHex)
 
         messagingTemplate.convertAndSend("/topic/chat", [
             content: saved.content,
-            timestamp: saved.dateCreated.time
+            timestamp: saved.dateCreated.time,
+            nickname: nickname,
+            color: colorHex
         ])
     }
 

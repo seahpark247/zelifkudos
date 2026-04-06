@@ -16,7 +16,7 @@
     <g:if test="${session.userId}">
     <div class="win-window win-chat-window" id="chatWindow">
         <div class="win-titlebar" id="chatTitlebar" style="cursor:grab;">
-            <span class="win-titlebar-text">💧 Water Cooler</span>
+            <span class="win-titlebar-text">Random Chat</span>
             <button class="win-titlebar-btn" onclick="toggleChat()" title="Minimize">&minus;</button>
         </div>
         <div class="win-chat-body" id="chatBody">
@@ -139,16 +139,22 @@
         return div.innerHTML;
     }
 
-    function appendMessage(content, timestamp) {
+    function appendMessage(content, timestamp, nickname, color) {
         var el = document.getElementById('chatMessages');
         var d = new Date(timestamp);
+        var yyyy = d.getFullYear();
+        var mm = String(d.getMonth() + 1).padStart(2, '0');
+        var dd = String(d.getDate()).padStart(2, '0');
         var h = d.getHours(), m = String(d.getMinutes()).padStart(2, '0');
         var ampm = h >= 12 ? 'PM' : 'AM';
         h = h % 12 || 12;
+        var timeStr = yyyy + '-' + mm + '-' + dd + ' ' + h + ':' + m + ' ' + ampm;
+        var nick = nickname || 'Anonymous';
+        var col = color || '#CCCCCC';
         var div = document.createElement('div');
         div.className = 'win-chat-msg';
-        div.innerHTML = '<span class="win-chat-time">' + h + ':' + m + ' ' + ampm + '</span> '
-            + '<span class="win-chat-nick">Anonymous</span>: '
+        div.title = timeStr;
+        div.innerHTML = '<span class="win-chat-nick" style="color:' + col + '">' + escapeHtml(nick) + '</span>: '
             + escapeHtml(content);
         el.appendChild(div);
         el.scrollTop = el.scrollHeight;
@@ -161,7 +167,7 @@
         stompClient.connect({}, function() {
             stompClient.subscribe('/topic/chat', function(msg) {
                 var data = JSON.parse(msg.body);
-                appendMessage(data.content, data.timestamp);
+                appendMessage(data.content, data.timestamp, data.nickname, data.color);
             });
         }, function() {
             setTimeout(connectChat, 5000);
@@ -190,8 +196,15 @@
     }
 
     fetch('/chat/recent').then(function(r) { return r.json(); }).then(function(msgs) {
-        msgs.forEach(function(m) { appendMessage(m.content, m.timestamp); });
+        msgs.forEach(function(m) { appendMessage(m.content, m.timestamp, m.nickname, m.color); });
     }).catch(function() {}).finally(function() { connectChat(); });
+
+    // Load current user's nickname into placeholder
+    fetch('/chat/myNickname').then(function(r) { return r.json(); }).then(function(data) {
+        if (data.nickname) {
+            document.getElementById('chatInput').placeholder = 'Type a message, ' + data.nickname + '...';
+        }
+    }).catch(function() {});
 </script>
 </g:if>
 
