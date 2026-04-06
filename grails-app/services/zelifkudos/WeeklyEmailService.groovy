@@ -17,6 +17,7 @@ class WeeklyEmailService {
     GrailsApplication grailsApplication
     KudosService kudosService
     ChatService chatService
+    FeelingService feelingService
 
     void sendWeeklyEmails() {
         log.info("Starting weekly kudos email job")
@@ -88,6 +89,7 @@ class WeeklyEmailService {
         kudosService.markKudosReset(null)
         chatService.deleteAllMessages()
         chatService.deleteAllNicknames()
+        feelingService.deleteAllFeelings()
         log.info("Weekly kudos reset complete (system)")
     }
 
