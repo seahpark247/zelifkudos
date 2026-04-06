@@ -80,7 +80,7 @@
                             <span class="win-feeling win-feeling-mine" onclick="editFeeling(this)" title="${feelings[u.id].encodeAsHTML()}"><span class="win-feeling-text">${feelings[u.id].encodeAsHTML()}</span></span>
                         </g:if>
                         <g:form controller="user" action="updateFeeling" method="POST" class="win-feeling-form" style="${feelings[u.id] ? 'display:none' : ''}">
-                            <input type="text" name="feeling" placeholder="How are you feeling?" maxlength="50" class="win-feeling-input"
+                            <input type="text" name="feeling" placeholder="What's on your mind?" maxlength="50" class="win-feeling-input"
                                    value="${(feelings[u.id] ?: '').encodeAsHTML()}" />
                             <button type="submit" class="win-btn win-btn-sm">Set</button>
                         </g:form>
