@@ -26,13 +26,12 @@
             Checking mailbox...
         </p>
 
-        <a href="https://outlook.cloud.microsoft/mail/inbox/" target="_blank" class="win-btn win-btn-primary" style="margin-top: 10px;">Open Inbox</a>
     </div>
 </div>
 
 <hr class="win-divider"/>
 <p class="win-note">
-    * Open your email and click the link.<br/>
+    * Check your email and click the login link.<br/>
     * This page will update automatically.<br/>
     * The link expires in 15 minutes.
 </p>
