@@ -19,10 +19,10 @@ class ChatService {
     ]
 
     static final List<String> COLORS = [
-        "#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFEAA7",
-        "#DDA0DD", "#98D8C8", "#F7DC6F", "#BB8FCE", "#85C1E9",
-        "#F8C471", "#82E0AA", "#F1948A", "#AED6F1", "#D7BDE2",
-        "#A3E4D7", "#FAD7A0", "#A9CCE3", "#D5F5E3", "#FADBD8"
+        "#FF5555", "#55FF55", "#5555FF", "#FFFF55", "#FF55FF",
+        "#55FFFF", "#FFA500", "#FF69B4", "#00FF7F", "#00CED1",
+        "#FFD700", "#7FFF00", "#FF6347", "#40E0D0", "#EE82EE",
+        "#F0E68C", "#87CEEB", "#FFC0CB", "#98FB98", "#DDA0DD"
     ]
 
     AnimalNickname getOrAssignNickname(Long userId) {
