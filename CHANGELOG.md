@@ -18,6 +18,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 ### Changed
 - Change login logic as simple way.
 - Change chatting room name as Random Chat.
+- Change time apprearance as  MM-DD-YYYY HH:mm.
 
 ### Fixed
 - Fix chat room width for bette UI.

@@ -86,7 +86,7 @@
         var dd = String(d.getDate()).padStart(2, '0');
         var hh = String(d.getHours()).padStart(2, '0');
         var min = String(d.getMinutes()).padStart(2, '0');
-        el.textContent = yyyy + '-' + mm + '-' + dd + ' ' + hh + ':' + min;
+        el.textContent = mm + '-' + dd + '-' + yyyy + ' ' + hh + ':' + min;
     });
 </script>
 
@@ -142,13 +142,12 @@
     function appendMessage(content, timestamp, nickname, color) {
         var el = document.getElementById('chatMessages');
         var d = new Date(timestamp);
-        var yyyy = d.getFullYear();
         var mm = String(d.getMonth() + 1).padStart(2, '0');
         var dd = String(d.getDate()).padStart(2, '0');
-        var h = d.getHours(), m = String(d.getMinutes()).padStart(2, '0');
-        var ampm = h >= 12 ? 'PM' : 'AM';
-        h = h % 12 || 12;
-        var timeStr = yyyy + '-' + mm + '-' + dd + ' ' + h + ':' + m + ' ' + ampm;
+        var yyyy = d.getFullYear();
+        var hh = String(d.getHours()).padStart(2, '0');
+        var min = String(d.getMinutes()).padStart(2, '0');
+        var timeStr = mm + '-' + dd + '-' + yyyy + ' ' + hh + ':' + min;
         var nick = nickname || 'Anonymous';
         var col = color || '#CCCCCC';
         var div = document.createElement('div');
