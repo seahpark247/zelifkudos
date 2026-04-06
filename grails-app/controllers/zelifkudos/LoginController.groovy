@@ -18,7 +18,7 @@ class LoginController {
     def sendLink() {
         String email = params.email
 
-        if (!email?.endsWith("@zelifcam.net")) {
+        if (!email?.endsWith("@zelifcam.net") && !User.findByEmail(email)) {
             flash.warning = "Please use our company email!"
             redirect(action: "index")
             return
