@@ -10,6 +10,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 5. Fixed
 6. Security
 
+## [3.3] - 2026-04-06
+
+### Fixed
+- Fix PWA support to work in production.
+
 ## [3.2] - 2026-04-06
 
 ### Added
