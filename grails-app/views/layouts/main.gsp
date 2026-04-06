@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title><g:layoutTitle default="ZelifKudos"/></title>
     <asset:link rel="icon" href="favicon.ico" type="image/x-ico"/>
+    <link rel="manifest" href="/manifest.json"/>
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png"/>
+    <meta name="theme-color" content="#c0c0c0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+    <meta name="apple-mobile-web-app-title" content="ZelifKudos"/>
     <asset:stylesheet src="application.css"/>
     <g:layoutHead/>
 </head>
@@ -209,5 +215,10 @@
 
 <div id="spinner" style="display:none;">Loading...</div>
 <asset:javascript src="application.js"/>
+<script>
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js');
+}
+</script>
 </body>
 </html>
