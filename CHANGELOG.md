@@ -13,15 +13,18 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 ## [3.2] - 2026-04-06
 
 ### Added
-- Random Chat's animal random nickname feature.
+- Add PWA support with pixel-art Z icon.
+- Add random animal nicknames with colors to chat.
+- Reset thought bubbles on weekly email and manual reset.
 
 ### Changed
-- Change login logic as simple way.
-- Change chatting room name as Random Chat.
-- Change time apprearance as  MM-DD-YYYY HH:mm.
+- Simplify login flow.
+- Rename chat room to "Random Chat".
+- Change timestamp format to MM-DD-YYYY HH:mm.
+- Change thought bubble placeholder to "What's on your mind?"
 
 ### Fixed
-- Fix chat room width for bette UI.
+- Fix chat room width.
 
 ## [3.1] - 2026-03-28
 
