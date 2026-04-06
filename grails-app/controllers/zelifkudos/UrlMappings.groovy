@@ -10,6 +10,9 @@ class UrlMappings {
         }
 
         "/"(controller: "login", action: "index")
+        "/manifest.json"(controller: "pwa", action: "manifest")
+        "/service-worker.js"(controller: "pwa", action: "serviceWorker")
+        "/icons/$filename"(controller: "pwa", action: "icon")
         "500"(view:'/error')
         "404"(view:'/notFound')
     }
