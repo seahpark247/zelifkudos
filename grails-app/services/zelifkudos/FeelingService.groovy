@@ -19,10 +19,6 @@ class FeelingService {
         Feeling.findByUser(user)?.delete()
     }
 
-    void deleteAllFeelings() {
-        Feeling.executeUpdate("delete from Feeling")
-    }
-
     Map<Long, String> getAllFeelings() {
         Feeling.list().collectEntries { [(it.user.id): it.message] }
     }

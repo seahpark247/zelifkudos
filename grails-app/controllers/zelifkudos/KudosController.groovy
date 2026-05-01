@@ -5,7 +5,6 @@ class KudosController {
     static allowedMethods = [send: 'POST', reset: 'POST']
 
     KudosService kudosService
-    FeelingService feelingService
     ChatService chatService
 
     def send() {
@@ -41,7 +40,6 @@ class KudosController {
         }
 
         kudosService.markKudosReset(currentUser)
-        feelingService.deleteAllFeelings()
         chatService.deleteAllMessages()
         chatService.deleteAllNicknames()
         flash.message = "All kudos have been reset."
