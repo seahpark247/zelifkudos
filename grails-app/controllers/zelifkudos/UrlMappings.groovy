@@ -10,6 +10,7 @@ class UrlMappings {
         }
 
         "/"(controller: "login", action: "index")
+        "/demo"(controller: "demo", action: "list")
         "/manifest.json"(controller: "pwa", action: "manifest")
         "/service-worker.js"(controller: "pwa", action: "serviceWorker")
         "/icons/$filename"(controller: "pwa", action: "icon")

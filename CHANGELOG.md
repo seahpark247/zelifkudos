@@ -10,6 +10,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 5. Fixed
 6. Security
 
+## [3.4] - 2026-05-01
+
+### Added
+- Daily chat nickname reset at midnight.
+
+### Changed
+- Hide deactivated users from the main user list.
+- Make feeling bubbles persist until the user changes them.
+
 ## [3.3] - 2026-04-06
 
 ### Fixed

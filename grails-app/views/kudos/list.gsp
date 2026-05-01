@@ -42,7 +42,7 @@
         <g:if test="${totalPages > 1}">
             <div class="win-pager">
                 <g:if test="${offset > 0}">
-                    <a href="${createLink(action:'list', params:[offset: offset - max])}" class="win-btn win-btn-sm">&lt; Prev</a>
+                    <a href="${createLink(action: isDemo ? 'history' : 'list', params:[offset: offset - max])}" class="win-btn win-btn-sm">&lt; Prev</a>
                 </g:if>
                 <g:else>
                     <button class="win-btn win-btn-sm" disabled>&lt; Prev</button>
@@ -51,7 +51,7 @@
                 <span class="win-pager-text">Page ${currentPage} of ${totalPages}</span>
 
                 <g:if test="${offset + max < total}">
-                    <a href="${createLink(action:'list', params:[offset: offset + max])}" class="win-btn win-btn-sm">Next &gt;</a>
+                    <a href="${createLink(action: isDemo ? 'history' : 'list', params:[offset: offset + max])}" class="win-btn win-btn-sm">Next &gt;</a>
                 </g:if>
                 <g:else>
                     <button class="win-btn win-btn-sm" disabled>Next &gt;</button>

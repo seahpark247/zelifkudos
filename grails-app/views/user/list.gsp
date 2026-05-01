@@ -60,7 +60,7 @@
     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
         <p style="font-size:12px; color:#808080; margin:0; font-style:italic;">Send kudos to climb the ranks!</p>
         <g:if test="${isAdmin}">
-            <g:form controller="kudos" action="reset" method="POST" class="win-inline-form">
+            <g:form controller="${isDemo ? 'demo' : 'kudos'}" action="reset" method="POST" class="win-inline-form">
                 <button type="button" class="win-btn win-btn-sm"
                         onclick="var total = ${kudosCounts.values().sum() ?: 0}; if(total === 0) { alert('Nothing to reset, no kudos since the last reset.'); } else if(confirm('Reset all kudos counts to 0? This action cannot be undone, but history will be preserved.')) { this.parentNode.submit(); }">
                     Reset All Kudos
@@ -71,15 +71,15 @@
 
     <ul class="win-listview">
         <g:each in="${users}" var="u" status="i">
-            <li class="${session.userId == u.id ? 'win-me' : ''}">
+            <li class="${currentUserId == u.id ? 'win-me' : ''}">
                 <span>
                     <span class="win-index">${i+1}.</span>
                     <g:encodeAs codec="HTML">${u.name.capitalize()}</g:encodeAs><g:if test="${isAdmin}"> (${kudosCounts[u.id] ?: 0})</g:if>
-                    <g:if test="${session.userId == u.id}">
+                    <g:if test="${currentUserId == u.id}">
                         <g:if test="${feelings[u.id]}">
                             <span class="win-feeling win-feeling-mine" onclick="editFeeling(this)" title="${feelings[u.id].encodeAsHTML()}"><span class="win-feeling-text">${feelings[u.id].encodeAsHTML()}</span></span>
                         </g:if>
-                        <g:form controller="user" action="updateFeeling" method="POST" class="win-feeling-form" style="${feelings[u.id] ? 'display:none' : ''}">
+                        <g:form controller="${isDemo ? 'demo' : 'user'}" action="updateFeeling" method="POST" class="win-feeling-form" style="${feelings[u.id] ? 'display:none' : ''}">
                             <input type="text" name="feeling" placeholder="What's on your mind?" maxlength="50" class="win-feeling-input"
                                    value="${(feelings[u.id] ?: '').encodeAsHTML()}" />
                             <button type="submit" class="win-btn win-btn-sm">Set</button>
@@ -89,8 +89,8 @@
                         <span class="win-feeling" title="${feelings[u.id].encodeAsHTML()}"><span class="win-feeling-text">${feelings[u.id].encodeAsHTML()}</span></span>
                     </g:elseif>
                 </span>
-                <g:if test="${session.userId != u.id}">
-                    <g:form controller="kudos" action="send" method="POST" class="win-inline-form" name="kudos-form-${u.id}">
+                <g:if test="${currentUserId != u.id}">
+                    <g:form controller="${isDemo ? 'demo' : 'kudos'}" action="send" method="POST" class="win-inline-form" name="kudos-form-${u.id}">
                         <input type="hidden" name="id" value="${u.id}" />
                         <input type="text" name="message" placeholder="Why..." maxlength="200" class="win-input-sm" />
                         <button type="button"
