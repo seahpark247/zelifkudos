@@ -18,6 +18,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/).
 ### Changed
 - Hide deactivated users from the main user list.
 - Make feeling bubbles persist until the user changes them.
+- Edit email recipient scope.
 
 ## [3.3] - 2026-04-06
 

@@ -35,10 +35,10 @@ class WeeklyEmailService {
         SelfEsteemMessage sem = SelfEsteemMessage.findBySortOrder((int)(resetCount % totalMessages))
         String selfEsteemMessage = sem?.message ?: "You are awesome!"
 
-        // Determine recipients: activated=true always, activated=false only if kudos >= 1
+        // Determine recipients: activated AND received at least 1 kudos this week
         List<User> allUsers = User.list()
         List<User> recipients = allUsers.findAll { user ->
-            user.activated || (kudosCounts[user.id] ?: 0) > 0
+            user.activated && (kudosCounts[user.id] ?: 0) > 0
         }
 
         String fromEmail = grailsApplication.config.getProperty('spring.mail.username')
@@ -176,7 +176,8 @@ class WeeklyEmailService {
                 sb.append("    </div>\n")
             }
         } else {
-            // No kudos this week
+            // Unreachable with current recipient filter (activated && kudos>0); kept for future
+            // configurable recipient policies (e.g., notify activated users even on empty weeks).
             sb.append("""
     <div style="background: #fff; border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px; margin: 16px 0; text-align: center;">
         <p style="color: #888;">It was a quiet week for kudos...</p>
