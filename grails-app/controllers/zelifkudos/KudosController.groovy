@@ -41,7 +41,6 @@ class KudosController {
 
         kudosService.markKudosReset(currentUser)
         chatService.deleteAllMessages()
-        chatService.deleteAllNicknames()
         flash.message = "All kudos have been reset."
         redirect(controller: "user", action: "list")
     }

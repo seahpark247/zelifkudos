@@ -87,7 +87,6 @@ class WeeklyEmailService {
         // All emails sent successfully — reset
         kudosService.markKudosReset(null)
         chatService.deleteAllMessages()
-        chatService.deleteAllNicknames()
         log.info("Weekly kudos reset complete (system)")
     }
 
